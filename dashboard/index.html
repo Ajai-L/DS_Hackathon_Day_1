@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing Performance Analytics & Decision Intelligence Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-icon">📊</div>
+        <div class="brand-text">
+          <h2>OmniPulse</h2>
+          <span class="subtext">DS_Day01_37 Marketing BI</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#overview" class="nav-item active" id="nav-overview">
+          <span class="icon">⚡</span> Executive Overview
+        </a>
+        <a href="#deep-dive" class="nav-item" id="nav-deepdive">
+          <span class="icon">🔍</span> Campaign Deep-Dive
+        </a>
+        <a href="#ctr-investigation" class="nav-item" id="nav-ctr">
+          <span class="icon">🎯</span> CTR vs Revenue Paradox
+        </a>
+        <a href="#segments" class="nav-item" id="nav-segments">
+          <span class="icon">👥</span> Customer Segments
+        </a>
+        <a href="#ml-model" class="nav-item" id="nav-ml">
+          <span class="icon">🌳</span> Decision Tree Engine
+        </a>
+        <a href="#budget-allocator" class="nav-item" id="nav-budget">
+          <span class="icon">💰</span> Budget Action Plan
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="badge-status">
+          <span class="pulse-dot"></span> Dataset: Cleaned & Validated
+        </div>
+        <div class="system-tag">Decision Tree: Gini Tree (v1.0)</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="header-title">
+          <h1>Digital Marketing Performance & Campaign Decision Hub</h1>
+          <p>Evaluating 5 Multi-Channel Campaigns Across 5 Customer Segments | Optimization & ML Guidance</p>
+        </div>
+        <div class="header-actions">
+          <div class="filter-group">
+            <label for="segmentFilter">Segment Filter:</label>
+            <select id="segmentFilter" class="select-input">
+              <option value="ALL">All Customer Segments</option>
+              <option value="Tech Enthusiasts">Tech Enthusiasts</option>
+              <option value="High-Income Professionals">High-Income Professionals</option>
+              <option value="Budget Shoppers">Budget Shoppers</option>
+              <option value="Young Families">Young Families</option>
+              <option value="College Students">College Students</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="btnExportSummary">
+            <span>📥</span> Export Action Plan
+          </button>
+        </div>
+      </header>
+
+      <!-- KPI Summary Cards -->
+      <section class="kpi-grid" id="overview">
+        <div class="kpi-card" id="card-spend">
+          <div class="kpi-header">
+            <span class="kpi-label">Total Ad Spend</span>
+            <span class="kpi-badge cost-badge">Cost</span>
+          </div>
+          <div class="kpi-value" id="kpiTotalSpend">$136,890</div>
+          <div class="kpi-sub">Across 5 Active Channels</div>
+        </div>
+
+        <div class="kpi-card" id="card-revenue">
+          <div class="kpi-header">
+            <span class="kpi-label">Total Revenue</span>
+            <span class="kpi-badge rev-badge">Gross</span>
+          </div>
+          <div class="kpi-value" id="kpiTotalRevenue">$368,420</div>
+          <div class="kpi-sub highlight-green" id="kpiNetProfit">Net Profit: +$231,530</div>
+        </div>
+
+        <div class="kpi-card" id="card-roas">
+          <div class="kpi-header">
+            <span class="kpi-label">Portfolio ROAS</span>
+            <span class="kpi-badge roas-badge">Multiplier</span>
+          </div>
+          <div class="kpi-value" id="kpiOverallROAS">2.69x</div>
+          <div class="kpi-sub">Target Benchmark: > 2.50x</div>
+        </div>
+
+        <div class="kpi-card" id="card-cpa">
+          <div class="kpi-header">
+            <span class="kpi-label">Average CPA</span>
+            <span class="kpi-badge cpa-badge">Acquisition</span>
+          </div>
+          <div class="kpi-value" id="kpiAverageCPA">$59.20</div>
+          <div class="kpi-sub" id="kpiTotalConversions">2,312 Total Conversions</div>
+        </div>
+
+        <div class="kpi-card" id="card-cvr">
+          <div class="kpi-header">
+            <span class="kpi-label">Average CVR & CTR</span>
+            <span class="kpi-badge kpi-accent">Efficiency</span>
+          </div>
+          <div class="kpi-value" id="kpiCombinedRate">3.4% / 3.1%</div>
+          <div class="kpi-sub">Conversion Rate / Click Rate</div>
+        </div>
+      </section>
+
+      <!-- Alert Banner: High Cost / Low Impact Identification -->
+      <div class="alert-banner warning-banner">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <h4>Underperforming Channel Alert: <strong>CMP_04_Affiliate_Display</strong></h4>
+          <p>Consumes <strong>34.2%</strong> of marketing expenditure ($46,800) but generates only <strong>6.3%</strong> of total revenues ($23,142) with an abysmal ROAS of <strong>0.49x</strong> (Net loss: -$23,658). Immediate budget reallocation is advised.</p>
+        </div>
+        <button class="btn btn-outline" id="btnViewAffiliate">Inspect Affiliate Display</button>
+      </div>
+
+      <!-- Core Visualizations Grid -->
+      <div class="charts-grid" id="deep-dive">
+        <!-- Chart 1: ROAS & CPA Comparison -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <div>
+              <h3>Visualization 1: Campaign ROAS vs. CPA Comparison</h3>
+              <p class="card-desc">Evaluating commercial efficiency and acquisition costs per campaign</p>
+            </div>
+            <span class="tag">Primary KPIs</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartRoasCpa"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: CTR vs Revenue Investigation -->
+        <div class="card chart-card" id="ctr-investigation">
+          <div class="card-header">
+            <div>
+              <h3>Visualization 2: Does High CTR Mean High Revenue?</h3>
+              <p class="card-desc">Correlation & bubble analysis debunking the clickbait fallacy</p>
+            </div>
+            <span class="tag warning-tag">Investigation</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartCtrVsRevenue"></canvas>
+          </div>
+          <div class="investigation-callout">
+            <strong>Key Finding:</strong> Social Influencer delivers the highest CTR (<strong>5.8%</strong>), but ranks 4th in revenue generation. Conversely, Search Intent SEM has a modest <strong>3.7% CTR</strong> but leads with <strong>$168,000+</strong> revenue due to an <strong>8.4% conversion rate</strong>. High CTR without high buyer intent does not produce revenue!
+          </div>
+        </div>
+
+        <!-- Chart 3: Customer Segment Heatmap/Breakdown -->
+        <div class="card chart-card" id="segments">
+          <div class="card-header">
+            <div>
+              <h3>Visualization 3: Performance Across Customer Segments</h3>
+              <p class="card-desc">Revenue and ROAS generated across different audience demographics</p>
+            </div>
+            <span class="tag">Audience Intel</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartSegmentPerf"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Cost vs Revenue Impact Quadrant -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <div>
+              <h3>Visualization 4: Cost vs Revenue Impact Matrix</h3>
+              <p class="card-desc">Categorizing campaigns into Star Performers, Efficiency Drivers, and Budget Drains</p>
+            </div>
+            <span class="tag">Strategic Quadrant</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="chartImpactQuadrant"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campaign Comparison Table -->
+      <section class="card table-card">
+        <div class="card-header">
+          <div>
+            <h3>Comprehensive Campaign Performance Table</h3>
+            <p class="card-desc">All calculated business metrics: Impressions, Clicks, CTR, Conversions, CVR, Cost, Revenue, CPA, and ROAS</p>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="campaignTable">
+            <thead>
+              <tr>
+                <th>Campaign ID</th>
+                <th>Impressions</th>
+                <th>Clicks</th>
+                <th>CTR (%)</th>
+                <th>Conversions</th>
+                <th>CVR (%)</th>
+                <th>Cost ($)</th>
+                <th>Revenue ($)</th>
+                <th>CPA ($)</th>
+                <th>ROAS</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Decision Tree Machine Learning Section -->
+      <section class="card ml-card" id="ml-model">
+        <div class="card-header">
+          <div>
+            <h3>Decision Tree Model & Interpretability Engine</h3>
+            <p class="card-desc">Machine Learning model predicting campaign profitability (High ROAS: ≥ 2.50x)</p>
+          </div>
+          <div class="ml-badge">Decision Tree Classifier (Scikit-Learn)</div>
+        </div>
+
+        <div class="ml-grid">
+          <!-- ML Metrics Summary -->
+          <div class="ml-metrics-pane">
+            <div class="stat-box">
+              <span class="stat-title">Model Accuracy</span>
+              <span class="stat-num text-emerald" id="modelAccuracy">94.8%</span>
+              <span class="stat-sub">Stratified Train/Test Split (75/25)</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-title">ROC-AUC Score</span>
+              <span class="stat-num text-indigo" id="modelAuc">0.972</span>
+              <span class="stat-sub">High Discriminative Power</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-title">Top Predictor</span>
+              <span class="stat-num text-amber" id="topPredictor">Conversion Rate (52%)</span>
+              <span class="stat-sub">Overwhelms CTR & Impressions</span>
+            </div>
+          </div>
+
+          <!-- Feature Importance Chart -->
+          <div class="ml-chart-pane">
+            <h4>Decision Tree Feature Importances (%)</h4>
+            <div class="chart-container-sm">
+              <canvas id="chartFeatureImportance"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decision Tree Rules Box -->
+        <div class="decision-rules-box">
+          <h4>🌲 Extracted Business Decision Rules (Interpretable Decision Pathways)</h4>
+          <div class="rules-code">
+            <pre><code>|--- Conversion_Rate_% >  4.20
+|   |--- Customer_Segment_High-Income Professionals == 1: class: HIGH_ROAS (ROAS avg: 6.8x, Winner)
+|   |--- Customer_Segment_High-Income Professionals == 0:
+|   |   |--- Campaign_Cost <= $2,400: class: HIGH_ROAS (ROAS avg: 3.4x, Email / Search)
+|   |   |--- Campaign_Cost >  $2,400: class: MODERATE_ROAS (ROAS avg: 2.1x)
+|--- Conversion_Rate_% <= 4.20
+|   |--- CTR_% > 4.50 (e.g. Influencer bait):
+|   |   |--- Customer_Segment_Budget Shoppers == 1: class: LOW_ROAS (ROAS avg: 0.85x, Loss-making)
+|   |   |--- Customer_Segment_Tech Enthusiasts == 1: class: MODERATE_ROAS (ROAS avg: 1.6x)
+|   |--- CTR_% <= 4.50:
+|   |   |--- Campaign_Cost > $4,000 (Display Affiliate): class: CRITICAL_DEFICIT (ROAS: 0.49x, Kill Campaign)</code></pre>
+          </div>
+        </div>
+
+        <!-- Interactive ML Simulator -->
+        <div class="ml-interactive-tester">
+          <h4>🧪 Interactive Decision Tree Scenario Predictor</h4>
+          <p>Test new campaign parameters to predict whether the setup will achieve High ROAS (≥ 2.50x):</p>
+          <div class="tester-controls">
+            <div class="control-item">
+              <label>Target Segment:</label>
+              <select id="simSegment" class="select-input">
+                <option value="High-Income Professionals">High-Income Professionals</option>
+                <option value="Tech Enthusiasts">Tech Enthusiasts</option>
+                <option value="Young Families">Young Families</option>
+                <option value="Budget Shoppers">Budget Shoppers</option>
+                <option value="College Students">College Students</option>
+              </select>
+            </div>
+            <div class="control-item">
+              <label>Expected CTR (%): <span id="valSimCtr">3.5%</span></label>
+              <input type="range" id="simCtr" min="0.5" max="10.0" step="0.1" value="3.5">
+            </div>
+            <div class="control-item">
+              <label>Expected Conversion Rate (%): <span id="valSimCvr">5.5%</span></label>
+              <input type="range" id="simCvr" min="0.5" max="15.0" step="0.1" value="5.5">
+            </div>
+            <div class="control-item">
+              <label>Campaign Cost ($): <span id="valSimCost">$2,200</span></label>
+              <input type="range" id="simCost" min="500" max="7000" step="100" value="2200">
+            </div>
+          </div>
+          <div class="tester-result-box" id="simPredictionResult">
+            <div class="result-badge success">Predicted Outcome: HIGH ROAS (Projected: 3.8x – 4.5x) ✅</div>
+            <p>High conversion intent with controlled CPA ensures solid profitability.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Practical Action Plan & Next-Quarter Budget Reallocation -->
+      <section class="card budget-card" id="budget-allocator">
+        <div class="card-header">
+          <div>
+            <h3>Practical Action Plan & Next-Quarter Budget Reallocation</h3>
+            <p class="card-desc">Empirical optimization framework reallocating capital from budget-drains into high-ROAS winners</p>
+          </div>
+          <span class="tag tag-success">Optimized Strategy</span>
+        </div>
+
+        <div class="budget-grid">
+          <div class="budget-sliders">
+            <h4>Adjust Next-Quarter Budget Reallocation ($100,000 Total)</h4>
+            <div class="slider-row">
+              <div class="slider-info">
+                <span>CMP_01 Brand Awareness</span>
+                <span class="val-txt" id="txtB1">$15,000 (15%)</span>
+              </div>
+              <input type="range" id="b1" min="0" max="60000" step="1000" value="15000">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <span>CMP_02 Social Influencer</span>
+                <span class="val-txt" id="txtB2">$10,000 (10%)</span>
+              </div>
+              <input type="range" id="b2" min="0" max="60000" step="1000" value="10000">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <span>CMP_03 Search Intent SEM (High Winner)</span>
+                <span class="val-txt highlight-green" id="txtB3">$45,000 (45%)</span>
+              </div>
+              <input type="range" id="b3" min="0" max="80000" step="1000" value="45000">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <span>CMP_04 Affiliate Display (Low Impact Drain)</span>
+                <span class="val-txt highlight-red" id="txtB4">$0 (0%)</span>
+              </div>
+              <input type="range" id="b4" min="0" max="60000" step="1000" value="0">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <span>CMP_05 Email Retargeting (Highest ROAS)</span>
+                <span class="val-txt highlight-green" id="txtB5">$30,000 (30%)</span>
+              </div>
+              <input type="range" id="b5" min="0" max="60000" step="1000" value="30000">
+            </div>
+
+            <div class="budget-balance-bar">
+              <div class="balance-label">
+                <span>Total Allocated Budget:</span>
+                <strong id="totalAllocated">$100,000 / $100,000</strong>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="allocProgress" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="budget-impact-pane">
+            <h4>Simulated Next-Quarter Financial Outcomes</h4>
+            <div class="impact-stats">
+              <div class="stat-card">
+                <span class="label">Projected Revenue</span>
+                <span class="value text-emerald" id="projRevenue">$492,500</span>
+                <span class="sub">+33.6% vs Historical Baseline</span>
+              </div>
+              <div class="stat-card">
+                <span class="label">Projected Blended ROAS</span>
+                <span class="value text-indigo" id="projRoas">4.92x</span>
+                <span class="sub">Up from 2.69x (+82.9% efficiency)</span>
+              </div>
+              <div class="stat-card">
+                <span class="label">Projected Net Profit</span>
+                <span class="value text-amber" id="projProfit">+$392,500</span>
+                <span class="sub">+$160,970 added bottom-line profit</span>
+              </div>
+            </div>
+
+            <div class="action-recommendations">
+              <h5>🎯 5 Core Executive Recommendations:</h5>
+              <ol>
+                <li><strong>Eliminate Affiliate Display:</strong> Halt the $46.8k spend on CMP_04; negative net returns (-$23.6k).</li>
+                <li><strong>Scale Search Intent SEM:</strong> Allocate 45% of budget here; converts at 8.4% and captures ready-to-buy prospects.</li>
+                <li><strong>Expand Email Retargeting:</strong> Boasts a 9.2% CVR and $13.80 CPA. High-margin nurture stream.</li>
+                <li><strong>Reposition Social Influencer:</strong> Shift focus from pure top-of-funnel clicks to targeted discounts for Tech Enthusiasts.</li>
+                <li><strong>Prioritize High-Income Professionals:</strong> Yields $220+ revenue per conversion across all channels.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Insights Summary (5 to 7 Key Insights) -->
+      <section class="card insights-card">
+        <div class="card-header">
+          <div>
+            <h3>Key Business Insights (DS_Day01_37 Synthesis)</h3>
+            <p class="card-desc">7 Data-Driven Discoveries from Statistical EDA, Regression, and Machine Learning</p>
+          </div>
+          <span class="tag tag-accent">Executive Synthesis</span>
+        </div>
+
+        <div class="insights-grid">
+          <div class="insight-item">
+            <div class="num">1</div>
+            <div>
+              <h4>Click-Through Rate (CTR) Does NOT Equal Revenue</h4>
+              <p>Social Influencer generated the highest CTR (5.8%), yet yielded an underwhelming ROAS of 1.48x. In contrast, Search Intent had a lower CTR (3.7%) but delivered 4.85x ROAS. High CTR often captures curiosity rather than purchase intent.</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">2</div>
+            <div>
+              <h4>Massive Capital Wastage in Affiliate Display</h4>
+              <p>CMP_04 recorded the highest average CPA ($248.50) and lowest ROAS (0.49x), costing $46,800 while returning only $23,142. It represents clear budget leakage requiring immediate divestment.</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">3</div>
+            <div>
+              <h4>Email Retargeting is the Most Cost-Effective Engine</h4>
+              <p>Generating an extraordinary ROAS of 7.21x with an average CPA of only $13.80, Email Retargeting converts warm leads at over 9.2%, making it the most profitable asset.</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">4</div>
+            <div>
+              <h4>High-Income Segment Drives 48% of All Revenues</h4>
+              <p>The High-Income Professionals segment generated $176,800 of the total $368,420 revenue (48.0%), with an average order value 2.3x higher than other demographics.</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">5</div>
+            <div>
+              <h4>Conversion Rate is the Dominant Predictor in Decision Tree</h4>
+              <p>The Decision Tree model assigned 52% feature importance to Conversion Rate and 24% to Customer Segment, while CTR accounted for less than 4% of predictive importance.</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">6</div>
+            <div>
+              <h4>College Students Exhibit High Click Volume, Ultra-Low Conversion</h4>
+              <p>College Students generated 28% of total clicks on social channels, but converted at only 1.2%, resulting in inflated CPA ($118.00) and poor overall ROAS (0.92x).</p>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="num">7</div>
+            <div>
+              <h4>Reallocation Framework Unlocks +$160k Incremental Profit</h4>
+              <p>By shifting 100% of the wasted Affiliate Display budget into SEM and Retargeting, projected portfolio ROAS surges from 2.69x to 4.92x without adding a single dollar in ad spend.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
